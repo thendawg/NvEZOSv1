@@ -114,8 +114,7 @@ chmod -R 755 /nvezos/
 echo "www-data  ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
 echo "gpuservice  ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
 
-# Cleanup
-rm -rf /nvezos/installpayload/
+# Cleanup service
 systemctl disable runonce.service
 
 # Move PHP/WebUI files into place
@@ -124,3 +123,6 @@ sleep 10
 rm -rf /var/www/html/index.html
 chown -R www-data /var/www/html/
 chmod -R 775 /var/www/html/
+
+# Cleanup files
+rm -rf /nvezos/installpayload/
