@@ -8,7 +8,7 @@ mkdir /nvidia/
 cd /nvidia/
 wget http://us.download.nvidia.com/XFree86/Linux-x86_64/384.59/NVIDIA-Linux-x86_64-384.59.run
 chmod +x NVIDIA-Linux-x86_64-384.59.run
-sh ./384.59/NVIDIA-Linux-x86_64-384.59.run
+sh ./NVIDIA-Linux-x86_64-384.59.run
 
 # Setup CUDA 8
 mkdir /cuda/
