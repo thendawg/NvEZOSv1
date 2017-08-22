@@ -5,9 +5,9 @@ sudo sed -i '/Option         "AllowEmptyInitialConfiguration" "True"/a    Option
 sudo sed -i '/Option         "ConnectedMonitor" "DFP-0"/a    Option         "CustomEDID" "DFP-0:/etc/X11/dfp0.edid"' /etc/X11/xorg.conf
 sudo mv /var/www/html/index.php /var/www/html/indexold.php
 sudo mv /var/www/html/indexready.php /var/www/html/index.php
-sleep 1
+sleep 2
 sudo systemctl enable minerdev.service
 sudo systemctl daemon-reload
 sudo mv /nvezos/scripts/system/initialize.sh /nvezos/scripts/system/initold.sh
-sleep 2
+sleep 10
 sudo shutdown -r now

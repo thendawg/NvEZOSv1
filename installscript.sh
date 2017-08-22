@@ -1,11 +1,24 @@
 #!/bin/bash
 
-# Wait for system to finish booting
-sleep 25
+# Make sure git is installed
+apt-get -y install git
 
 # Install SSH Daemon for management first
 apt-get -y install openssh-server
 apt-get -y install fail2ban
+
+# Setup CUDA 8 / Nvidia375 Drivers
+mkdir /cuda/
+cd /cuda/
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+dpkg -i cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+apt-get -y update
+apt-get -y install cuda
+
+# Install Apache/PHP
+apt-get -y install apache2
+apt-get -y install libapache2-mod-php
+systemctl restart apache2
 
 # Setup SSL and make some certs
 a2enmod ssl
@@ -24,6 +37,41 @@ chmod 755 /etc/apache2/ports.conf
 a2dissite 000-default.conf
 a2ensite default-ssl.conf
 systemctl restart apache2
+
+# Setup ethminer
+apt-get -y install software-properties-common
+add-apt-repository -y ppa:ethereum/ethereum
+apt-get -y update
+apt-get -y install cmake libcryptopp-dev libleveldb-dev libjsoncpp-dev libjsonrpccpp-dev libboost-all-dev libgmp-dev libreadline-dev libcurl4-gnutls-dev ocl-icd-libopencl1 opencl-headers mesa-common-dev libmicrohttpd-dev build-essential
+mkdir /ethminer/
+cd /ethminer/
+git clone "https://github.com/davilizh/cpp-ethereum.git"
+cd cpp-ethereum
+git checkout optimized_for_some_nvidian_cards
+mkdir build
+cd build
+cmake -DBUNDLE=cudaminer ..
+make -j8
+chown -R www-data /ethminer/
+chmod -R 755 /ethminer/
+
+# Extract EWBF
+mkdir /ewbf/
+mv /nvezos/installpayload/miners/ewbf/* /ewbf/
+chown -R www-data /ewbf/
+chmod -R 755 /ewbf/
+
+# Extract Claymore
+mkdir /claymore/
+mv /nvezos/installpayload/miners/claymore/* /claymore/
+chown -R www-data /claymore/
+chmod -R 755 /claymore/
+
+# Move PHP/WebUI files into place
+/bin/cp -rf /nvezos/installpayload/html/ /var/www/
+rm -rf /var/www/html/index.html
+chown -R www-data /var/www/html/
+chmod -R 775 /var/www/html/
 
 # Setup crontab (log cleanup script)
 /bin/cp -f /nvezos/installpayload/crontab /etc/crontab
@@ -101,8 +149,6 @@ echo 'disabled' > /nvezos/set/multimine/multimine.set
 echo '5' > /nvezos/set/status/refreshint.set
 echo 'minerdev.log' > /nvezos/set/status/minerloglocation.set
 
-# Move EDID Into Place
-/bin/cp -rf /nvezos/installpayload/dfp0.edid /etc/X11/
 
 # Set Default WebUI Password
 echo nvezos | htpasswd -c -i /nvezos/set/password/passwords miner
@@ -111,19 +157,19 @@ echo nvezos | htpasswd -c -i /nvezos/set/password/passwords miner
 chown -R www-data /nvezos/
 chmod -R 755 /nvezos/
 
+
 # Setup passwordless sudo for www-data and gpuservice
 echo "www-data  ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
 echo "gpuservice  ALL=(ALL:ALL) NOPASSWD: ALL" | (EDITOR="tee -a" visudo)
 
-# Cleanup service
-systemctl disable runonce.service
-
-# Move PHP/WebUI files into place
-sleep 10
-/bin/cp -rf /nvezos/installpayload/html/ /var/www/
-rm -rf /var/www/html/index.html
-chown -R www-data /var/www/html/
-chmod -R 775 /var/www/html/
-
-# Cleanup files
+# Cleanup
 rm -rf /nvezos/installpayload/
+rm -rf /cuda/
+
+# Install is complete - let's reboot'
+echo "Installation of NvEZOS is now complete"
+echo "The miner will now be rebooted, after reboot you can customize this miner via the WebUI available at:"
+hostname -I
+echo "System will now reboot in 60 seconds, or you may restart manually"
+sleep 60
+shutdown -r now

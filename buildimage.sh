@@ -3,19 +3,13 @@
 # Make sure git is installed
 apt-get -y install git
 
-# Setup nVidia Drivers
-mkdir /nvidia/
-cd /nvidia/
-wget http://us.download.nvidia.com/XFree86/Linux-x86_64/384.59/NVIDIA-Linux-x86_64-384.59.run
-chmod +x NVIDIA-Linux-x86_64-384.59.run
-sh ./NVIDIA-Linux-x86_64-384.59.run
-
-# Setup CUDA 8
+# Setup CUDA 8 / Nvidia375 Drivers
 mkdir /cuda/
 cd /cuda/
-wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
-chmod +x cuda_8.0.61_375.26_linux-run
-sh ./cuda_8.0.61_375.26_linux-run
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+dpkg -i cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+apt-get -y update
+apt-get -y install cuda
 
 # Install Apache/PHP
 apt-get -y install apache2
