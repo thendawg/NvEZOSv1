@@ -27,6 +27,7 @@
    	@media only screen
    	and (min-device-width : 320px)
    	and (max-device-width : 480px){ .mobileShow { display: inline;}}
+	.textred { color: #FF0000; }
     </style>
 </head>
 <body>
@@ -111,23 +112,30 @@
 	function MinerHashrate1() {
 		$m1enabled = exec('cat /nvezos/set/miners/1status.set');
 		if ($m1enabled=="yes") {
+			exec('ps cax | grep miner1.sh > /nvezos/set/miners/minerup1.set');
+			$minerup1 = filesize('/nvezos/set/miners/minerup1.set');
 			$minertype1 = exec('cat /nvezos/set/miners/minertype1.set');
-			if ($minertype1=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf1.sh > /nvezos/set/status/hashrate/ewbf1.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf1.set > /nvezos/set/status/hashrate/ewbf1sant.set');
-				$hashrate1 = exec('cat /nvezos/set/status/hashrate/ewbf1sant.set');
-				}
-			elseif ($minertype1=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth1.sh > /nvezos/set/status/hashrate/eth1.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth1.set > /nvezos/set/status/hashrate/eth1sant.set');
-				$hashrate1 = exec('cat /nvezos/set/status/hashrate/eth1sant.set');
-				}
-			elseif ($minertype1=="claymore") {
-				$hashrate1 = 'Claymore - See Log';
-				}
+			if ($minerup1 >= '2') {
+				if ($minertype1=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf1.sh > /nvezos/set/status/hashrate/ewbf1.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf1.set > /nvezos/set/status/hashrate/ewbf1sant.set');
+					$hashrate1 = exec('cat /nvezos/set/status/hashrate/ewbf1sant.set');
+					}
+				elseif ($minertype1=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth1.sh > /nvezos/set/status/hashrate/eth1.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth1.set > /nvezos/set/status/hashrate/eth1sant.set');
+					$hashrate1 = exec('cat /nvezos/set/status/hashrate/eth1sant.set');
+					}
+				elseif ($minertype1=="claymore") {
+					$hashrate1 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate1 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate1 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate1 = "Disabled";
@@ -137,23 +145,30 @@
 	function MinerHashrate2() {
 		$m2enabled = exec('cat /nvezos/set/miners/2status.set');
 		if ($m2enabled=="yes") {
+			exec('ps cax | grep miner2.sh > /nvezos/set/miners/minerup2.set');
+			$minerup2 = filesize('/nvezos/set/miners/minerup2.set');
 			$minertype2 = exec('cat /nvezos/set/miners/minertype2.set');
-			if ($minertype2=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf2.sh > /nvezos/set/status/hashrate/ewbf2.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf2.set > /nvezos/set/status/hashrate/ewbf2sant.set');
-				$hashrate2 = exec('cat /nvezos/set/status/hashrate/ewbf2sant.set');
-				}
-			elseif ($minertype2=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth2.sh > /nvezos/set/status/hashrate/eth2.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth2.set > /nvezos/set/status/hashrate/eth2sant.set');
-				$hashrate2 = exec('cat /nvezos/set/status/hashrate/eth2sant.set');
-				}
-			elseif ($minertype2=="claymore") {
-				$hashrate2 = 'Claymore - See Log';
+			if ($minerup2 >= '2') {
+				if ($minertype2=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf2.sh > /nvezos/set/status/hashrate/ewbf2.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf2.set > /nvezos/set/status/hashrate/ewbf2sant.set');
+					$hashrate2 = exec('cat /nvezos/set/status/hashrate/ewbf2sant.set');
+					}
+				elseif ($minertype2=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth2.sh > /nvezos/set/status/hashrate/eth2.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth2.set > /nvezos/set/status/hashrate/eth2sant.set');
+					$hashrate2 = exec('cat /nvezos/set/status/hashrate/eth2sant.set');
+					}
+				elseif ($minertype2=="claymore") {
+					$hashrate2 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate2 = "Not Configured";
+					}
 				}
 			else {
-				$hashrate2 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate2 = "Disabled";
@@ -163,23 +178,30 @@
 	function MinerHashrate3() {
 		$m3enabled = exec('cat /nvezos/set/miners/3status.set');
 		if ($m3enabled=="yes") {
+			exec('ps cax | grep miner3.sh > /nvezos/set/miners/minerup3.set');
+			$minerup3 = filesize('/nvezos/set/miners/minerup3.set');
 			$minertype3 = exec('cat /nvezos/set/miners/minertype3.set');
-			if ($minertype3=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf3.sh > /nvezos/set/status/hashrate/ewbf3.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf3.set > /nvezos/set/status/hashrate/ewbf3sant.set');
-				$hashrate3 = exec('cat /nvezos/set/status/hashrate/ewbf3sant.set');
-				}
-			elseif ($minertype3=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth3.sh > /nvezos/set/status/hashrate/eth3.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth3.set > /nvezos/set/status/hashrate/eth3sant.set');
-				$hashrate3 = exec('cat /nvezos/set/status/hashrate/eth3sant.set');
-				}
-			elseif ($minertype3=="claymore") {
-				$hashrate3 = 'Claymore - See Log';
-				}
+			if ($minerup3 >= '2') {
+				if ($minertype3=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf3.sh > /nvezos/set/status/hashrate/ewbf3.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf3.set > /nvezos/set/status/hashrate/ewbf3sant.set');
+					$hashrate3 = exec('cat /nvezos/set/status/hashrate/ewbf3sant.set');
+					}
+				elseif ($minertype3=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth3.sh > /nvezos/set/status/hashrate/eth3.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth3.set > /nvezos/set/status/hashrate/eth3sant.set');
+					$hashrate3 = exec('cat /nvezos/set/status/hashrate/eth3sant.set');
+					}
+				elseif ($minertype3=="claymore") {
+					$hashrate3 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate3 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate3 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate3 = "Disabled";
@@ -189,23 +211,30 @@
 	function MinerHashrate4() {
 		$m4enabled = exec('cat /nvezos/set/miners/4status.set');
 		if ($m4enabled=="yes") {
+			exec('ps cax | grep miner4.sh > /nvezos/set/miners/minerup4.set');
+			$minerup4 = filesize('/nvezos/set/miners/minerup4.set');
 			$minertype4 = exec('cat /nvezos/set/miners/minertype4.set');
-			if ($minertype4=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf4.sh > /nvezos/set/status/hashrate/ewbf4.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf4.set > /nvezos/set/status/hashrate/ewbf4sant.set');
-				$hashrate4 = exec('cat /nvezos/set/status/hashrate/ewbf4sant.set');
-				}
-			elseif ($minertype4=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth4.sh > /nvezos/set/status/hashrate/eth4.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth4.set > /nvezos/set/status/hashrate/eth4sant.set');
-				$hashrate4 = exec('cat /nvezos/set/status/hashrate/eth4sant.set');
-				}
-			elseif ($minertype4=="claymore") {
-				$hashrate4 = 'Claymore - See Log';
-				}
+			if ($minerup4 >= '2') {
+				if ($minertype4=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf4.sh > /nvezos/set/status/hashrate/ewbf4.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf4.set > /nvezos/set/status/hashrate/ewbf4sant.set');
+					$hashrate4 = exec('cat /nvezos/set/status/hashrate/ewbf4sant.set');
+					}
+				elseif ($minertype4=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth4.sh > /nvezos/set/status/hashrate/eth4.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth4.set > /nvezos/set/status/hashrate/eth4sant.set');
+					$hashrate4 = exec('cat /nvezos/set/status/hashrate/eth4sant.set');
+					}
+				elseif ($minertype4=="claymore") {
+					$hashrate4 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate4 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate4 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate4 = "Disabled";
@@ -215,23 +244,30 @@
 	function MinerHashrate5() {
 		$m5enabled = exec('cat /nvezos/set/miners/5status.set');
 		if ($m5enabled=="yes") {
+			exec('ps cax | grep miner5.sh > /nvezos/set/miners/minerup5.set');
+			$minerup5 = filesize('/nvezos/set/miners/minerup5.set');
 			$minertype5 = exec('cat /nvezos/set/miners/minertype5.set');
-			if ($minertype5=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf5.sh > /nvezos/set/status/hashrate/ewbf5.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf5.set > /nvezos/set/status/hashrate/ewbf5sant.set');
-				$hashrate5 = exec('cat /nvezos/set/status/hashrate/ewbf5sant.set');
-				}
-			elseif ($minertype5=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth5.sh > /nvezos/set/status/hashrate/eth5.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth5.set > /nvezos/set/status/hashrate/eth5sant.set');
-				$hashrate5 = exec('cat /nvezos/set/status/hashrate/eth5sant.set');
-				}
-			elseif ($minertype5=="claymore") {
-				$hashrate5 = 'Claymore - See Log';
-				}
+			if ($minerup5 >= '2') {
+				if ($minertype5=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf5.sh > /nvezos/set/status/hashrate/ewbf5.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf5.set > /nvezos/set/status/hashrate/ewbf5sant.set');
+					$hashrate5 = exec('cat /nvezos/set/status/hashrate/ewbf5sant.set');
+					}
+				elseif ($minertype5=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth5.sh > /nvezos/set/status/hashrate/eth5.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth5.set > /nvezos/set/status/hashrate/eth5sant.set');
+					$hashrate5 = exec('cat /nvezos/set/status/hashrate/eth5sant.set');
+					}
+				elseif ($minertype5=="claymore") {
+					$hashrate5 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate5 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate5 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate5 = "Disabled";
@@ -241,23 +277,30 @@
 	function MinerHashrate6() {
 		$m6enabled = exec('cat /nvezos/set/miners/6status.set');
 		if ($m6enabled=="yes") {
+			exec('ps cax | grep miner6.sh > /nvezos/set/miners/minerup6.set');
+			$minerup6 = filesize('/nvezos/set/miners/minerup6.set');
 			$minertype6 = exec('cat /nvezos/set/miners/minertype6.set');
-			if ($minertype6=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf6.sh > /nvezos/set/status/hashrate/ewbf6.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf6.set > /nvezos/set/status/hashrate/ewbf6sant.set');
-				$hashrate6 = exec('cat /nvezos/set/status/hashrate/ewbf6sant.set');
-				}
-			elseif ($minertype6=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth6.sh > /nvezos/set/status/hashrate/eth6.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth6.set > /nvezos/set/status/hashrate/eth6sant.set');
-				$hashrate6 = exec('cat /nvezos/set/status/hashrate/eth6sant.set');
-				}
-			elseif ($minertype6=="claymore") {
-				$hashrate6 = 'Claymore - See Log';
-				}
+			if ($minerup6 >= '2') {
+				if ($minertype6=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf6.sh > /nvezos/set/status/hashrate/ewbf6.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf6.set > /nvezos/set/status/hashrate/ewbf6sant.set');
+					$hashrate6 = exec('cat /nvezos/set/status/hashrate/ewbf6sant.set');
+					}
+				elseif ($minertype6=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth6.sh > /nvezos/set/status/hashrate/eth6.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth6.set > /nvezos/set/status/hashrate/eth6sant.set');
+					$hashrate6 = exec('cat /nvezos/set/status/hashrate/eth6sant.set');
+					}
+				elseif ($minertype6=="claymore") {
+					$hashrate6 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate6 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate6 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate6 = "Disabled";
@@ -267,23 +310,30 @@
 	function MinerHashrate7() {
 		$m7enabled = exec('cat /nvezos/set/miners/7status.set');
 		if ($m7enabled=="yes") {
+			exec('ps cax | grep miner7.sh > /nvezos/set/miners/minerup7.set');
+			$minerup7 = filesize('/nvezos/set/miners/minerup7.set');
 			$minertype7 = exec('cat /nvezos/set/miners/minertype7.set');
-			if ($minertype7=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf7.sh > /nvezos/set/status/hashrate/ewbf7.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf7.set > /nvezos/set/status/hashrate/ewbf7sant.set');
-				$hashrate7 = exec('cat /nvezos/set/status/hashrate/ewbf7sant.set');
-				}
-			elseif ($minertype7=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth7.sh > /nvezos/set/status/hashrate/eth7.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth7.set > /nvezos/set/status/hashrate/eth7sant.set');
-				$hashrate7 = exec('cat /nvezos/set/status/hashrate/eth7sant.set');
-				}
-			elseif ($minertype7=="claymore") {
-				$hashrate7 = 'Claymore - See Log';
-				}
+			if ($minerup7 >= '2') {
+				if ($minertype7=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf7.sh > /nvezos/set/status/hashrate/ewbf7.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf7.set > /nvezos/set/status/hashrate/ewbf7sant.set');
+					$hashrate7 = exec('cat /nvezos/set/status/hashrate/ewbf7sant.set');
+					}
+				elseif ($minertype7=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth7.sh > /nvezos/set/status/hashrate/eth7.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth7.set > /nvezos/set/status/hashrate/eth7sant.set');
+					$hashrate7 = exec('cat /nvezos/set/status/hashrate/eth7sant.set');
+					}
+				elseif ($minertype7=="claymore") {
+					$hashrate7 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate7 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate7 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate7 = "Disabled";
@@ -293,23 +343,30 @@
 	function MinerHashrate8() {
 		$m8enabled = exec('cat /nvezos/set/miners/8status.set');
 		if ($m8enabled=="yes") {
+			exec('ps cax | grep miner8.sh > /nvezos/set/miners/minerup8.set');
+			$minerup8 = filesize('/nvezos/set/miners/minerup8.set');
 			$minertype8 = exec('cat /nvezos/set/miners/minertype8.set');
-			if ($minertype8=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf8.sh > /nvezos/set/status/hashrate/ewbf8.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf8.set > /nvezos/set/status/hashrate/ewbf8sant.set');
-				$hashrate8 = exec('cat /nvezos/set/status/hashrate/ewbf8sant.set');
-				}
-			elseif ($minertype8=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth8.sh > /nvezos/set/status/hashrate/eth8.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth8.set > /nvezos/set/status/hashrate/eth8sant.set');
-				$hashrate8 = exec('cat /nvezos/set/status/hashrate/eth8sant.set');
-				}
-			elseif ($minertype8=="claymore") {
-				$hashrate8 = 'Claymore - See Log';
-				}
+			if ($minerup8 >= '2') {
+				if ($minertype8=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf8.sh > /nvezos/set/status/hashrate/ewbf8.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf8.set > /nvezos/set/status/hashrate/ewbf8sant.set');
+					$hashrate8 = exec('cat /nvezos/set/status/hashrate/ewbf8sant.set');
+					}
+				elseif ($minertype8=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth8.sh > /nvezos/set/status/hashrate/eth8.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth8.set > /nvezos/set/status/hashrate/eth8sant.set');
+					$hashrate8 = exec('cat /nvezos/set/status/hashrate/eth8sant.set');
+					}
+				elseif ($minertype8=="claymore") {
+					$hashrate8 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate8 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate8 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate8 = "Disabled";
@@ -319,23 +376,30 @@
 	function MinerHashrate9() {
 		$m9enabled = exec('cat /nvezos/set/miners/9status.set');
 		if ($m9enabled=="yes") {
+			exec('ps cax | grep miner9.sh > /nvezos/set/miners/minerup9.set');
+			$minerup9 = filesize('/nvezos/set/miners/minerup9.set');
 			$minertype9 = exec('cat /nvezos/set/miners/minertype9.set');
-			if ($minertype9=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf9.sh > /nvezos/set/status/hashrate/ewbf9.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf9.set > /nvezos/set/status/hashrate/ewbf9sant.set');
-				$hashrate9 = exec('cat /nvezos/set/status/hashrate/ewbf9sant.set');
-				}
-			elseif ($minertype9=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth9.sh > /nvezos/set/status/hashrate/eth9.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth9.set > /nvezos/set/status/hashrate/eth9sant.set');
-				$hashrate9 = exec('cat /nvezos/set/status/hashrate/eth9sant.set');
-				}
-			elseif ($minertype9=="claymore") {
-				$hashrate9 = 'Claymore - See Log';
-				}
+			if ($minerup9 >= '2') {
+				if ($minertype9=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf9.sh > /nvezos/set/status/hashrate/ewbf9.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf9.set > /nvezos/set/status/hashrate/ewbf9sant.set');
+					$hashrate9 = exec('cat /nvezos/set/status/hashrate/ewbf9sant.set');
+					}
+				elseif ($minertype9=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth9.sh > /nvezos/set/status/hashrate/eth9.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth9.set > /nvezos/set/status/hashrate/eth9sant.set');
+					$hashrate9 = exec('cat /nvezos/set/status/hashrate/eth9sant.set');
+					}
+				elseif ($minertype9=="claymore") {
+					$hashrate9 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate9 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate9 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate9 = "Disabled";
@@ -345,29 +409,36 @@
 	function MinerHashrate10() {
 		$m10enabled = exec('cat /nvezos/set/miners/10status.set');
 		if ($m10enabled=="yes") {
+			exec('ps cax | grep miner10.sh > /nvezos/set/miners/minerup10.set');
+			$minerup10 = filesize('/nvezos/set/miners/minerup10.set');
 			$minertype10 = exec('cat /nvezos/set/miners/minertype10.set');
-			if ($minertype10=="ewbf") {
-				exec('/nvezos/scripts/query/queryhashrateewbf10.sh > /nvezos/set/status/hashrate/ewbf10.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf10.set > /nvezos/set/status/hashrate/ewbf10sant.set');
-				$hashrate10 = exec('cat /nvezos/set/status/hashrate/ewbf10sant.set');
-				}
-			elseif ($minertype10=="ethminer") {
-				exec('/nvezos/scripts/query/queryhashrateeth10.sh > /nvezos/set/status/hashrate/eth10.set');
-				exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth10.set > /nvezos/set/status/hashrate/eth10sant.set');
-				$hashrate10 = exec('cat /nvezos/set/status/hashrate/eth10sant.set');
-				}
-			elseif ($minertype10=="claymore") {
-				$hashrate10 = 'Claymore - See Log';
-				}
+			if ($minerup10 >= '2') {
+				if ($minertype10=="ewbf") {
+					exec('/nvezos/scripts/query/queryhashrateewbf10.sh > /nvezos/set/status/hashrate/ewbf10.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/ewbf10.set > /nvezos/set/status/hashrate/ewbf10sant.set');
+					$hashrate10 = exec('cat /nvezos/set/status/hashrate/ewbf10sant.set');
+					}
+				elseif ($minertype10=="ethminer") {
+					exec('/nvezos/scripts/query/queryhashrateeth10.sh > /nvezos/set/status/hashrate/eth10.set');
+					exec('sed "s/\x1b//g" /nvezos/set/status/hashrate/eth10.set > /nvezos/set/status/hashrate/eth10sant.set');
+					$hashrate10 = exec('cat /nvezos/set/status/hashrate/eth10sant.set');
+					}
+				elseif ($minertype10=="claymore") {
+					$hashrate10 = 'Claymore - See Log';
+					}
+				else {
+					$hashrate10 = "Not Configured";
+					}
+			}
 			else {
-				$hashrate10 = "Not Configured";
-				}
+				echo '<div class="textred">Process Dead - Check Log</div>';
+			}		
 		}
 		else {
 		$hashrate10 = "Disabled";
 		}
 		echo $hashrate10;
-	}
+	}	
 	function DevHashrate() {
 		$devenabled = exec('cat /nvezos/set/miners/devstatus.set');
 		if ($devenabled=="yes") {
