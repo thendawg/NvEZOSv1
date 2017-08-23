@@ -483,7 +483,7 @@
     <div class="footer">  
             <div class="row">
                 <div class="col-lg-12" >
-                    &copy;  2017 NPMining | NvEZOS Beta v1.0</a>
+                    &copy;  2017 NPMining | NvEZOS Beta v1.02</a>
                 </div>
             </div>
         </div>

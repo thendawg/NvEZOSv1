@@ -153,6 +153,7 @@
 		<br>
 		Dev Mining is enabled on first boot, however, as soon as you start your own miner, or hit disable all services, it will be disabled, and will not auto-run in the future. If you wish to give back, feel free to donate or run the dev miner service manually!
 		<br>
+		You can find more documentation and tutorials <a href="https://www.nvezos.com/documentation">HERE</a>.
 		<br>
 		</div>
 		</div>
@@ -163,7 +164,7 @@
     <div class="footer">  
             <div class="row">
                 <div class="col-lg-12" >
-                    &copy;  2017 NPMining | NvEZOS Beta v1.0</a>
+                    &copy;  2017 NPMining | NvEZOS Beta v1.02</a>
                 </div>
             </div>
         </div>
